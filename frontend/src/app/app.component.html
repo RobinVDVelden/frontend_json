@@ -1,0 +1,47 @@
+<mat-card>
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <form>
+      <mat-form-field class="search" appearance="outline">
+        <mat-label>Zoeken</mat-label>
+        <input matInput type="text" [formControl]="searchInput" (ngModelChange)="onSearchChange()">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </form>
+  </div>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="padding: 0px;">
+  
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Naam </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+  </table>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-icon-button (click)="prev()">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+    <span>{{ page }}/{{ pages }}</span>
+    <button mat-icon-button (click)="next()">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+    <mat-form-field appearance="outline" class="page-select">
+      <mat-label>Pagina</mat-label>
+      <mat-select [(ngModel)]="page" (selectionChange)="select()">
+        <!-- <mat-option value="1">1</mat-option> -->
+        <mat-option *ngFor="let p of pagesArray;" [value]="p" >{{p}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+</mat-card>
+
+<div class="space"></div>
+

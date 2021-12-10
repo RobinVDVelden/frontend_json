@@ -1,0 +1,35 @@
+mat-card {
+    margin: 16px;
+    padding: 0px;
+}
+
+table {
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+  }
+
+
+.space {
+    height: 30px;
+    width: 100%;
+}
+
+.search{
+    width: 300px;
+    margin-right: 20px;
+  }
+
+.page-select {
+  margin: 5px 0;
+  width: 60px;
+  margin-left: 20px;
+}
+
+.page-select ::ng-deep .mat-form-field-wrapper {
+  padding: 0;
+}
+
+.page-select ::ng-deep .mat-form-field-infix {
+  padding: 8px 0 !important;
+}
