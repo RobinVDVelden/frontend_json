@@ -29,23 +29,26 @@ export class AppComponent {
 
 
   constructor(private http: HttpClient) {
-
-    // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     
     this.initTable(this.page,this.results_per_page);
 
   }
 
   initTable(page:any,rpp:number) {
-    this.http.get('http://192.168.64.2/json.php?page='+page+'&resultsperpage='+rpp).subscribe((json: any) => {
+    var url = 'http://192.168.64.2/json.php?page='+page+'&resultsperpage='+rpp;
+    var value = this.searchInput.value;
+    if (value.replace(' ','') != '' && value != null) {
+      url = url + '&searchval='+value;
+    }
+    this.http.get(url).subscribe((json: any) => {
       var data = json[0];
       var settings = json[1];
       console.log(settings);
       this.pages = settings['total_pages'];
       this.pagesArray = [];
-        for (var a = 1;a <= this.pages;a++) {
-          this.pagesArray.push(a);
-        }
+      for (var a = 1;a <= this.pages;a++) {
+        this.pagesArray.push(a);
+      }
       this.dataSource = [];
       data.forEach((e: any) => {
         this.dataSource = [
@@ -74,31 +77,6 @@ export class AppComponent {
   next() {
     if (this.page != this.pages) {
       this.page++;
-      this.initTable(this.page,this.results_per_page);
-    }
-  }
-
-  onSearchChange() {  
-    var value = this.searchInput.value;
-    if (value.replace(' ','') != '' && value != null) {
-      this.http.get('http://192.168.64.2/json.php?page='+this.page+'&resultsperpage='+this.results_per_page+'&searchval='+value).subscribe((json: any) => {
-        var data = json[0];
-        var settings = json[1];
-        console.log(settings);
-        this.pages = settings['total_pages'];
-        this.pagesArray = [];
-        for (var a = 1;a <= this.pages;a++) {
-          this.pagesArray.push(a);
-        }
-        this.dataSource = [];
-        data.forEach((e: any) => {
-          this.dataSource = [
-            ...this.dataSource,
-            e,
-          ];
-        });
-      });
-    } else {
       this.initTable(this.page,this.results_per_page);
     }
   }
